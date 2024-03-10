@@ -1,0 +1,21 @@
+{
+  "name": "Deep Fake Detections",
+  "version": "1.0",
+  "manifest_version": 3,
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["contentScript/contentScript.js"]
+    }
+  ],
+
+  "action": {
+    "default_popup": "popup/popup.html"
+  },
+  "icons": {
+    "16": "assets/brain_16.png",
+    "32": "assets/brain_32.png",
+    "48": "assets/brain_48.png",
+    "128": "assets/brain_128.png"
+  }
+}
