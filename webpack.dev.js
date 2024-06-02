@@ -9,6 +9,10 @@ module.exports = {
       __dirname,
       "src/ContentScript/ImageDetector.js"
     ),
+    serviceWorker: path.resolve(
+      __dirname,
+      "src/ServiceWorker/MessageHandler.js"
+    ),
   },
 
   output: {

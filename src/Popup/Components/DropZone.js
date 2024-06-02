@@ -1,56 +1,30 @@
 import React, { useCallback } from "react";
-import { useDropzone } from "react-dropzone";
+import Dropzone from "react-dropzone";
 import "../Styles/Header.css";
 
-const DropZone = () => {
-  const onDrop = useCallback((acceptedFiles) => {
-    console.log("Accepted Files:", acceptedFiles);
-  }, []);
-
-  const {
-    acceptedFiles,
-    getRootProps,
-    getInputProps,
-    isDragActive,
-    isDragReject,
-  } = useDropzone({
-    accept: {
-      "image/jpeg": [],
-      "image/png": [],
-      "image/webp": [],
-      "image/heic": [],
-      "image/jfif": [],
+const FileDropzone = ({ onFileDrop }) => {
+  const onDrop = useCallback(
+    (acceptedFiles) => {
+      if (acceptedFiles && acceptedFiles.length > 0) {
+        const file = acceptedFiles[0];
+        onFileDrop(file);
+      }
     },
-    minSize: 1024,
-    maxSize: 3072000,
-    onDrop,
-  });
+    [onFileDrop]
+  );
 
   return (
     <div className="dropZone">
-      <div
-        {...getRootProps()}
-        className={`dropzone ${isDragActive ? "active" : ""}`}
-      >
-        <input {...getInputProps()} />
-        <p>
-          {isDragActive
-            ? "Drop image here..."
-            : "Drag 'n' drop some files here, or click to select files"}
-        </p>
-        {isDragReject && (
-          <p className="reject">Only image files are allowed!</p>
+      <Dropzone onDrop={onDrop}>
+        {({ getRootProps, getInputProps }) => (
+          <div {...getRootProps()}>
+            <input {...getInputProps()} />
+            <p>Drag 'n' drop some files here, or click to select files</p>
+          </div>
         )}
-        {acceptedFiles.map((file) => (
-          <img
-            key={file.path}
-            src={URL.createObjectURL(file)}
-            alt={file.path}
-          />
-        ))}
-      </div>
+      </Dropzone>
     </div>
   );
 };
 
-export default DropZone;
+export default FileDropzone;

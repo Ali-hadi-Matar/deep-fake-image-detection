@@ -5,6 +5,10 @@ const CopyPlugin = require("copy-webpack-plugin");
 module.exports = {
   entry: {
     popup: path.resolve(__dirname, "src/Popup/Popup.js"),
+    serviceWorker: path.resolve(
+      __dirname,
+      "src/ServiceWorker/MessageHandler.js"
+    ),
   },
 
   output: {

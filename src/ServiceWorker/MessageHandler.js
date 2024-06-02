@@ -1,20 +1,17 @@
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  console.log("++++ message ", request);
-  console.log(
-    sender.tab
-      ? "from a content script:" + sender.tab.url
-      : "from the extension"
-  );
-  if (request.greetings === "hello") sendResponse({ farewell: "goodbye" });
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.contextMenus.create({
+    id: "predictImage",
+    title: "Predict Image",
+    contexts: ["image"],
+  });
 });
 
-// "content_scripts": [
-//   {
-//     "matches": ["<all_urls>"],
-//     "js": ["src/ContentScript/ImageDetector.js"]
-//   }
-// ],
-
-// "background": {
-//   "service_worker": "src/ServiceWorker/MessageHandler.js"
-// }
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+  if (info.menuItemId === "predictImage") {
+    const imageUrl = info.srcUrl;
+    chrome.tabs.sendMessage(tab.id, {
+      action: "predictImage",
+      imageUrl: imageUrl,
+    });
+  }
+});
